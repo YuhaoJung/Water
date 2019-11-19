@@ -1,5 +1,6 @@
 package com.example.water;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,29 +41,27 @@ public class MainActivity extends AppCompatActivity {
         m2 = findViewById(R.id.M2);
 
     }
-    public void set (View view){
+    public void set (View view) {
         String up = m1.getText().toString();
-        if(!TextUtils.isEmpty(up)){
-        float degree = Float.parseFloat(m1.getText().toString());
         float fee = 0;
-        if(degree>=0&&degree<=10){
-            fee = degree*7.35f;
+        if (!TextUtils.isEmpty(up)) {
+            float degree = Float.parseFloat(m1.getText().toString());
+            fee = 0;
+            if (degree >= 0 && degree <= 10) {
+                fee = degree * 7.35f;
+            } else if (degree > 10 && degree <= 30) {
+                fee = degree * 9.45f - 21;
+            } else if (degree > 30 && degree <= 50) {
+                fee = degree * 11.55f - 84;
+            } else if (degree > 50) {
+                fee = degree * 12.075f - 110.25f;
+            }
         }
-        else if (degree>10&&degree<=30){
-            fee = degree*9.45f-21;
-        }
-        else if(degree>30&&degree<=50){
-            fee = degree*11.55f-84;
-        }
-        else if(degree>50){
-            fee = degree*12.075f-110.25f;
-        }
-        }
-        else {
-
-        }
-
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.getFloatExtra("FEE", fee);
+        startActivity(intent);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
